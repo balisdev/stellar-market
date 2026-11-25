@@ -1,3 +1,9 @@
+/**
+ * Job Detail Caching Tests
+ *
+ * These tests rely on service worker caching, which only works in production mode.
+ * See offline.spec.ts for details on why dev vs prod matters for PWA SW registration.
+ */
 import { test, expect } from '@playwright/test';
 
 test.describe('Job Detail Caching', () => {

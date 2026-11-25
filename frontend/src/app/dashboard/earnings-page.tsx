@@ -242,13 +242,12 @@ const EarningsPage = () => {
     setCurrentPage(1);
   }, [preset]);
 
+  /** Formats an amount in XLM (Stellar native token).
+   * All values in this endpoint are native XLM from on-chain transactions,
+   * not USD values. Using USD currency formatting would misrepresent amounts.
+   */
   const formatCurrency = (amount: number): string =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(amount);
+    `${amount.toLocaleString()} XLM`;
 
   const formatDate = (dateStr: string): string =>
     new Date(dateStr).toLocaleDateString("en-US", {
