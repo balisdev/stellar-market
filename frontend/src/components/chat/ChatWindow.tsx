@@ -197,6 +197,14 @@ export default function ChatWindow({
     };
   }, [socket, partnerId, currentUserId]);
 
+  // Clear the pending debounce timer on unmount so typing_stop is not emitted
+  // after the component has already been destroyed (#1773).
+  useEffect(() => {
+    return () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
+
   const handleInputChange = useCallback(
     (value: string) => {
       setInput(value);

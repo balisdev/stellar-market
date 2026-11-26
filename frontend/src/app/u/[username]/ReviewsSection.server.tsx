@@ -1,13 +1,18 @@
+import type { Review, PaginatedResponse } from "@/types";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
 
 type Props = { userPromise: Promise<any> };
 
 export default async function ReviewsSection({ userPromise }: Props) {
   const user = await userPromise;
-  const res = await fetch(`${API_URL}/reviews?targetId=${encodeURIComponent(user.id)}`, {
+  const res = await fetch(`${API_URL}/reviews?revieweeId=${encodeURIComponent(user.id)}`, {
     next: { revalidate: 60 },
   });
-  const reviews = res.ok ? await res.json() : [];
+  const response: PaginatedResponse<Review> = res.ok
+    ? await res.json()
+    : { data: [], total: 0, page: 1, totalPages: 0 };
+  const reviews = response.data;
 
   return (
     <section aria-labelledby="reviews-heading" className="card">
